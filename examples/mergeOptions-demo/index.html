@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue源码调试</title>
+  </head>
+
+  <body>
+    <div id="app">
+        <childCpn></childCpn>
+    </div>
+
+    <script src="../../dist/vue.js"></script>
+    <script>
+      let childCpn = {
+        template: `<div>{{message}}</div>`,
+        created () {
+          console.log('child created');
+        },
+        mounted () {
+          console.log('child mounted');
+        },
+        data () {
+          return {
+            message: 'Vue源码学习之合并配置',
+          };
+        },
+      };
+      Vue.mixin({
+          created() {
+              console.log('parent created');
+          }
+      });
+      new Vue({
+        el: "#app",
+        components: {
+            childCpn
+        },
+        render: h => h(childCpn)
+      });
+    </script>
+  </body>
+</html>
