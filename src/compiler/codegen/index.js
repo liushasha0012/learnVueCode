@@ -68,16 +68,16 @@ export function genElement (el: ASTElement, state: CodegenState): string {
     if (el.component) {
       code = genComponent(el.component, el, state)
     } else {
-      const data = el.plain ? undefined : genData(el, state) // data 的内容是 class 和 style 属性构成的 JSON 字符串
+      const data = el.plain ? undefined : genData(el, state) // data 的内容标签上的属性构成的 JSON 字符串，放到_c()函数的第二个参数，也就是标签属性的对象集合
 
-      const children = el.inlineTemplate ? null : genChildren(el, state, true)
+      const children = el.inlineTemplate ? null : genChildren(el, state, true) // 生成子节点列表，放到_c()的第三个参数
       code = `_c('${el.tag}'${
         data ? `,${data}` : '' // data
       }${
         children ? `,${children}` : '' // children
       })`
     }
-    // module transforms
+    // module transforms // web环境中没有这个函数
     for (let i = 0; i < state.transforms.length; i++) {
       code = state.transforms[i](el, code)
     }
