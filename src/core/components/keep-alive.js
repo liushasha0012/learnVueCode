@@ -61,8 +61,8 @@ export default {
   },
 
   created () {
-    this.cache = Object.create(null)
-    this.keys = []
+    this.cache = Object.create(null) // vnode 会保留在 cache 对象中
+    this.keys = [] // 保留缓存的 vnode 的 key 值
   },
 
   destroyed () {
@@ -80,7 +80,7 @@ export default {
     })
   },
 
-  render () {
+  render () { // render 函数最终是要返回一个 vnode
     const slot = this.$slots.default
     const vnode: VNode = getFirstComponentChild(slot)
     const componentOptions: ?VNodeComponentOptions = vnode && vnode.componentOptions
@@ -113,7 +113,7 @@ export default {
         keys.push(key)
         // prune oldest entry
         if (this.max && keys.length > parseInt(this.max)) {
-          pruneCacheEntry(cache, keys[0], keys, this._vnode)
+          pruneCacheEntry(cache, keys[0], keys, this._vnode) // 做缓存清理
         }
       }
 

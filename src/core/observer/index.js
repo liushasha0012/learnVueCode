@@ -108,6 +108,7 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
+// observe 的主要作用就是返回了 Observer 的实例对象，即将 data 变成响应式对象的。
 export function observe (value: any, asRootData: ?boolean): Observer | void {
   if (!isObject(value) || value instanceof VNode) {
     return
@@ -163,7 +164,7 @@ export function defineReactive (
       const value = getter ? getter.call(obj) : val
       // 依赖收集开始
       /* 依赖收集就是当访问数据的getter时，会将当前计算的watcher全部收集到Dep实例中的subs中，
-      使当前计算的watcher成为Dep的订阅者。这是为了在数据发生改变的时候，通知watcher执行相应的逻辑
+      使当前计算的watcher成为Dep的订阅者。这是为了在数据发生改变的时候，通知watcher重新渲染
       */
       if (Dep.target) {
         dep.depend()

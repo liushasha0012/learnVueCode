@@ -146,17 +146,24 @@ export default class Watcher {
     let i = this.deps.length
     while (i--) {
       const dep = this.deps[i]
-      if (!this.newDepIds.has(dep.id)) {
+      if (!this.newDepIds.has(dep.id)) { // 当前计算的 watcher 没有使用这个 data 的时候，就把它从 subs 中移除，也就是移除订阅。
         dep.removeSub(this)
       }
     }
+    // 交换 newDepIds 和 depIds
     let tmp = this.depIds
     this.depIds = this.newDepIds
     this.newDepIds = tmp
+
+    // 清空 newDepIds
     this.newDepIds.clear()
+
+    // 交换 deps 和 newDeps
     tmp = this.deps
     this.deps = this.newDeps
     this.newDeps = tmp
+    
+    // 清空 newDeps
     this.newDeps.length = 0
   }
 
